@@ -1,16 +1,15 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
-import CollectionPreview from '../../components/collection-preview/collection-preview.jsx'
+import { Route } from 'react-router-dom'
 import CollectionsOverview from '../../components/collections-overview/collections-overview.jsx'
-import { selectCollections } from '../../redux/shop/shop-selectors.js'
+import CollectionPage from '../collection/collection.jsx'
 
-const ShopPage = ({ collections }) => (
+// Automatically passed {match, location, history}
+const ShopPage = ({ match }) => (
   <div className="shop-page">
-    <CollectionsOverview/>
+    <Route exact path={`${match.path}`} component={CollectionsOverview} />
+    {/* :categoryId means it's assigned to a path variable */}
+    <Route path={`${match.path}/:categoryId`} component={CollectionPage}/>
   </div>
 )
-
-
 
 export default ShopPage
