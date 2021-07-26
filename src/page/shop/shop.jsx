@@ -1,7 +1,7 @@
-import React from 'react'
-import { Route } from 'react-router-dom'
-import CollectionsOverview from '../../components/collections-overview/collections-overview.jsx'
-import CollectionPage from '../collection/collection.jsx'
+import React from "react"
+import { Route } from "react-router-dom"
+import CollectionsOverview from "../../components/collections-overview/collections-overview.jsx"
+import CollectionPage from "../collection/collection.jsx"
 
 // Automatically passed {match, location, history}
 const ShopPage = ({ match }) => (

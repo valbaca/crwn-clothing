@@ -1,21 +1,21 @@
-import React from 'react'
-import { auth, createUserProfileDocument } from '../../firebase/firebase.utils'
-import CustomButton from '../custom-button/custom-button'
-import FormInput from '../form-input/form-input'
-import './sign-up.scss'
+import React from "react"
+import { auth, createUserProfileDocument } from "../../firebase/firebase.utils"
+import CustomButton from "../custom-button/custom-button"
+import FormInput from "../form-input/form-input"
+import "./sign-up.scss"
 
 class SignUp extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      displayName: '',
-      email: '',
-      password: '',
-      confirmPassword: ''
+      displayName: "",
+      email: "",
+      password: "",
+      confirmPassword: ""
     }
   }
 
-  handleSubmit = async event => {
+  handleSubmit = async (event) => {
     event.preventDefault()
     const { displayName, email, password, confirmPassword } = this.state
 
@@ -31,19 +31,19 @@ class SignUp extends React.Component {
       )
       await createUserProfileDocument(user, { displayName })
       this.setState({
-        displayName: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
+        displayName: "",
+        email: "",
+        password: "",
+        confirmPassword: ""
       })
     } catch (error) {
       console.error(error)
     }
   }
 
-  handleChange = async event => {
-    const {name, value} = event.target;
-    this.setState({[name]: value})
+  handleChange = async (event) => {
+    const { name, value } = event.target
+    this.setState({ [name]: value })
   }
 
   render() {

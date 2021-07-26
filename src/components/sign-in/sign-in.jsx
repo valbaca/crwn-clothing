@@ -1,21 +1,21 @@
-import React from 'react'
-import { auth, signInWithGoogle } from '../../firebase/firebase.utils'
-import CustomButton from '../custom-button/custom-button'
-import FormInput from '../form-input/form-input'
+import React from "react"
+import { auth, signInWithGoogle } from "../../firebase/firebase.utils"
+import CustomButton from "../custom-button/custom-button"
+import FormInput from "../form-input/form-input"
 
-import './sign-in.scss'
+import "./sign-in.scss"
 
 class SignIn extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      email: '',
-      password: ''
+      email: "",
+      password: ""
     }
   }
 
-  handleSubmit = async event => {
+  handleSubmit = async (event) => {
     event.preventDefault()
 
     const { email, password } = this.state
@@ -23,17 +23,17 @@ class SignIn extends React.Component {
     try {
       await auth.signInWithEmailAndPassword(email, password)
       this.setState({
-        email: '',
-        password: ''
+        email: "",
+        password: ""
       })
     } catch (error) {
       console.error(error)
     }
 
-    this.setState({ email: '', password: '' })
+    this.setState({ email: "", password: "" })
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     const { value, name } = event.target
 
     this.setState({ [name]: value })
