@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 
 export const HeaderContainer = styled.div`
   height: 70px;
@@ -23,18 +23,8 @@ export const OptionsContainer = styled.div`
   align-items: center;
   justify-content: flex-end;
 `
-
-// This will be shared
-export const OptionContainerStyles = css`
-  padding: 10px 15px;
-  cursor: pointer;
-`
-
 // Here we share styles between two components
 export const OptionLink = styled(Link)`
-  ${OptionContainerStyles}
-`
-
-export const OptionDiv = styled.div`
-  ${OptionContainerStyles}
+  padding: 10px 15px;
+  cursor: pointer;
 `
