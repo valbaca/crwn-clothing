@@ -1,6 +1,6 @@
 import firebase from "firebase/app"
-import "firebase/firestore"
 import "firebase/auth"
+import "firebase/firestore"
 
 const config = {
   apiKey: "AIzaSyDnq4nU1J8Oi_7cIk4VV6LBs0GbPslE1TI",
@@ -30,6 +30,38 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 }
 
 firebase.initializeApp(config)
+
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd
+) => {
+  const collectionRef = firestore.collection(collectionKey)
+
+  const batch = firestore.batch()
+
+  objectsToAdd.forEach((obj) => {
+    const newDocRef = collectionRef.doc()
+    batch.set(newDocRef, obj)
+  })
+  return await batch.commit()
+}
+
+export const convertCollectionsSnapshotToMap = (collections) => {
+  const transformedCollection = collections.docs.map((doc) => {
+    const { title, items } = doc.data()
+    return {
+      routeName: encodeURI(title.toLowerCase()),
+      id: doc.id,
+      title,
+      items
+    }
+  })
+
+  return transformedCollection.reduce((acc, cur) => {
+    acc[cur.title.toLowerCase()] = cur
+    return acc
+  }, {})
+}
 
 export const auth = firebase.auth()
 export const firestore = firebase.firestore()
