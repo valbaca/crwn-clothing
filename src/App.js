@@ -1,23 +1,27 @@
 import React from "react"
-import HomePage from "./page/homepage/homepage.jsx"
-import { Redirect, Route, Switch } from "react-router-dom"
-import ShopPage from "./page/shop/shop.jsx"
-import Header from "./components/header/header.jsx"
-import SignInAndSignUpPage from "./page/sign-in-and-sign-up/sign-in-and-sign-up.jsx"
-
-import "./App.css"
-import { auth, createUserProfileDocument } from "./firebase/firebase.utils.js"
 import { connect } from "react-redux"
-import { setCurrentUser } from "./redux/user/user-actions.js"
+import { Redirect, Route, Switch } from "react-router-dom"
 import { createStructuredSelector } from "reselect"
-import { selectCurrentUser } from "./redux/user/user-selectors.js"
+import "./App.css"
+import Header from "./components/header/header.jsx"
+import {
+  addCollectionAndDocuments,
+  auth,
+  createUserProfileDocument
+} from "./firebase/firebase.utils.js"
 import CheckoutPage from "./page/checkout/checkout.jsx"
+import HomePage from "./page/homepage/homepage.jsx"
+import ShopPage from "./page/shop/shop.jsx"
+import SignInAndSignUpPage from "./page/sign-in-and-sign-up/sign-in-and-sign-up.jsx"
+import { selectCollectionsForPreview } from "./redux/shop/shop-selectors.js"
+import { setCurrentUser } from "./redux/user/user-actions.js"
+import { selectCurrentUser } from "./redux/user/user-selectors.js"
 
 class App extends React.Component {
   unsubscribeFromAuth = null
 
   componentDidMount() {
-    const { setCurrentUser } = this.props
+    const { setCurrentUser, collectionsArray } = this.props
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth)
@@ -27,9 +31,12 @@ class App extends React.Component {
             ...snapShot.data()
           })
         })
-      } else {
-        setCurrentUser(userAuth)
       }
+      setCurrentUser(userAuth)
+      addCollectionAndDocuments(
+        "collections",
+        collectionsArray.map(({ title, items }) => ({ title, items }))
+      )
     })
   }
 
@@ -63,7 +70,8 @@ class App extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
+  currentUser: selectCurrentUser,
+  collectionsArray: selectCollectionsForPreview
 })
 
 const mapDispatchToProps = (dispatch) => ({

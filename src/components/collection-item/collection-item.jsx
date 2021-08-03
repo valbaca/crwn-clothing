@@ -15,7 +15,6 @@ const CollectionItem = ({ item, addItem }) => {
       </div>
       <CustomButton
         className="custom-button"
-        inverted
         onClick={() => addItem(item)}
         inverted
       >
