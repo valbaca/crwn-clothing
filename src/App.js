@@ -4,11 +4,6 @@ import { Redirect, Route, Switch } from "react-router-dom"
 import { createStructuredSelector } from "reselect"
 import "./App.css"
 import Header from "./components/header/header.jsx"
-import {
-  addCollectionAndDocuments,
-  auth,
-  createUserProfileDocument
-} from "./firebase/firebase.utils.js"
 import CheckoutPage from "./page/checkout/checkout.jsx"
 import HomePage from "./page/homepage/homepage.jsx"
 import ShopPage from "./page/shop/shop.jsx"
@@ -20,25 +15,7 @@ import { selectCurrentUser } from "./redux/user/user-selectors.js"
 class App extends React.Component {
   unsubscribeFromAuth = null
 
-  componentDidMount() {
-    const { setCurrentUser, collectionsArray } = this.props
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth)
-        userRef.onSnapshot((snapShot) => {
-          setCurrentUser({
-            id: snapShot.id,
-            ...snapShot.data()
-          })
-        })
-      }
-      setCurrentUser(userAuth)
-      addCollectionAndDocuments(
-        "collections",
-        collectionsArray.map(({ title, items }) => ({ title, items }))
-      )
-    })
-  }
+  componentDidMount() {}
 
   componentWillUnmount() {
     this.unsubscribeFromAuth()
