@@ -5,7 +5,12 @@ import {
   createUserProfileDocument,
   googleProvider
 } from "../../firebase/firebase.utils.js"
-import { googleSignInFailure, googleSignInSuccess } from "./user-actions.js"
+import {
+  emailSignInFailure,
+  emailSignInSuccess,
+  googleSignInFailure,
+  googleSignInSuccess
+} from "./user-actions.js"
 import UserActionTypes from "./user-types.js"
 
 export function* signInWithGoogle() {
@@ -21,9 +26,27 @@ export function* signInWithGoogle() {
   }
 }
 
+export function* signInWithEmail({ payload: { email, password } }) {
+  try {
+    const { user } = yield auth.signInWithEmailAndPassword(email, password)
+    const userRef = yield call(createUserProfileDocument, user)
+    const userSnapshot = yield userRef.get()
+    yield put(
+      emailSignInSuccess({ id: userSnapshot.id, ...userSnapshot.data() })
+    )
+  } catch (error) {
+    yield put(emailSignInFailure(error))
+  }
+}
+
 export function* onGoogleSignInStart() {
   yield takeLatest(UserActionTypes.GOOGLE_SIGN_IN_START, signInWithGoogle)
 }
+
+export function* onEmailSignInStart() {
+  yield takeLatest(UserActionTypes.EMAIL_SIGN_IN_START, signInWithEmail)
+}
+
 export function* userSagas() {
-  yield all([call(onGoogleSignInStart)])
+  yield all([call(onGoogleSignInStart), call(onEmailSignInStart)])
 }
