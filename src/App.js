@@ -1,8 +1,8 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, Route, Switch } from "react-router-dom"
-import "./App.css"
 import Header from "./components/header/header.jsx"
+import GlobalStyle from "./global.styles.js"
 import CheckoutPage from "./page/checkout/checkout.jsx"
 import HomePage from "./page/homepage/homepage.jsx"
 import ShopPage from "./page/shop/shop.jsx"
@@ -20,6 +20,7 @@ const App = () => {
 
   return (
     <div>
+      <GlobalStyle />
       <Header />
       <Switch>
         <Route exact path="/" component={HomePage} />
