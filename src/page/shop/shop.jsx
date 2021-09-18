@@ -1,9 +1,17 @@
-import React, { useEffect } from "react"
+import React, { lazy, Suspense, useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { Route } from "react-router-dom"
-import CollectionsOverviewContainer from "../../components/collections-overview/collections-overview-container.jsx"
+import Spinner from "../../components/spinner/spinner.jsx"
 import { fetchCollectionsStart } from "../../redux/shop/shop-actions.js"
-import CollectionPageContainer from "../collection/collection-container.jsx"
+
+const CollectionsOverviewContainer = lazy(() =>
+  import(
+    "../../components/collections-overview/collections-overview-container.jsx"
+  )
+)
+const CollectionPageContainer = lazy(() =>
+  import("../collection/collection-container.jsx")
+)
 
 const ShopPage = ({ match }) => {
   const dispatch = useDispatch()
@@ -13,16 +21,18 @@ const ShopPage = ({ match }) => {
 
   return (
     <div className="shop-page">
-      <Route
-        exact
-        path={`${match.path}`}
-        component={CollectionsOverviewContainer}
-      />
-      {/* :categoryId means it's assigned to a path variable */}
-      <Route
-        path={`${match.path}/:collectionId`}
-        component={CollectionPageContainer}
-      />
+      <Suspense fallback={<Spinner />}>
+        <Route
+          exact
+          path={`${match.path}`}
+          component={CollectionsOverviewContainer}
+        />
+        {/* :categoryId means it's assigned to a path variable */}
+        <Route
+          path={`${match.path}/:collectionId`}
+          component={CollectionPageContainer}
+        />
+      </Suspense>
     </div>
   )
 }
