@@ -1,6 +1,7 @@
 import React, { lazy, Suspense, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, Route, Switch } from "react-router-dom"
+import ErrorBoundary from "./components/error-boundary/error-boundary.jsx"
 import Header from "./components/header/header.jsx"
 import Spinner from "./components/spinner/spinner.jsx"
 import GlobalStyle from "./global.styles.js"
@@ -28,18 +29,20 @@ const App = () => {
       <GlobalStyle />
       <Header />
       <Switch>
-        <Suspense fallback={<Spinner />}>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/shop" component={ShopPage} />
-          <Route exact path="/checkout" component={CheckoutPage} />
-          <Route
-            exact
-            path="/signin"
-            render={() =>
-              currentUser ? <Redirect to="/" /> : <SignInAndSignUpPage />
-            }
-          />
-        </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={<Spinner />}>
+            <Route exact path="/" component={HomePage} />
+            <Route path="/shop" component={ShopPage} />
+            <Route exact path="/checkout" component={CheckoutPage} />
+            <Route
+              exact
+              path="/signin"
+              render={() =>
+                currentUser ? <Redirect to="/" /> : <SignInAndSignUpPage />
+              }
+            />
+          </Suspense>
+        </ErrorBoundary>
       </Switch>
     </div>
   )
