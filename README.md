@@ -1,10 +1,15 @@
 # crwn-clothing 👑 ⚛️
 
-crwn-clothing is a hip shopping page for my development portfolio. It's built with [React](https://reactjs.org/), [Redux](https://redux.js.org/), [Reselect](https://github.com/reduxjs/reselect), and [Sass](https://sass-lang.com/). The site is integrated with [Firebase](https://firebase.google.com/) for persistence and [Stripe](https://stripe.com/) for payments.
+crwn-clothing is a hip shopping page for my development portfolio. It's built with:
 
-See the site hosted...
-- on AWS Amplify: https://crwn-clothing.valbaca.com/
-- on Heroku: https://crwn-valbaca.herokuapp.com/
+- [React](https://reactjs.org/)
+- [Redux](https://redux.js.org/) for state management
+- [Reselect](https://github.com/reduxjs/reselect) for selectors
+- [Sass](https://sass-lang.com/) for styling
+- [Firebase](https://firebase.google.com/) for auth and store
+- [Stripe](https://stripe.com/) for payments
+
+See the site hosted on Vercel: https://crwn-clothing-navy.vercel.app/
 
 Screenshot:
 
