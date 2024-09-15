@@ -1,3 +1,4 @@
+import { collection } from "firebase/firestore"
 import {
   convertCollectionsSnapshotToMap,
   firestore
@@ -20,7 +21,7 @@ export const fetchCollectionFailure = (errorMessage) => ({
 
 export const fetchCollectionsStartAsync = () => {
   return (dispatch) => {
-    const collectionRef = firestore.collection("collections")
+    const collectionRef = collection(firestore, "collections")
     dispatch(fetchCollectionsStart())
 
     collectionRef

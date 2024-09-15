@@ -1,4 +1,6 @@
 import { all, call, takeLatest } from "@redux-saga/core/effects"
+import { signInWithPopup } from "firebase/auth"
+import { getDoc } from "firebase/firestore"
 import { put } from "redux-saga/effects"
 import {
   auth,
@@ -19,7 +21,7 @@ import UserActionTypes from "./user-types.js"
 function* getSnapshotFromUserAuth(user, additionalData) {
   try {
     const userRef = yield call(createUserProfileDocument, user, additionalData)
-    const userSnapshot = yield userRef.get()
+    const userSnapshot = yield getDoc(userRef)
     yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }))
   } catch (error) {
     yield put(signInFailure(error))
@@ -38,7 +40,7 @@ function* isUserAuthenticated() {
 
 export function* signInWithGoogle() {
   try {
-    const { user } = yield auth.signInWithPopup(googleProvider)
+    const { user } = yield signInWithPopup(auth, googleProvider)
     yield getSnapshotFromUserAuth(user)
   } catch (error) {
     yield put(signInFailure(error))

@@ -1,6 +1,18 @@
-import firebase from "firebase/compat/app"
-import "firebase/compat/auth"
-import "firebase/compat/firestore"
+import { initializeApp } from "firebase/app"
+import {
+  getAuth,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithPopup
+} from "firebase/auth"
+import {
+  collection,
+  doc,
+  getDoc,
+  getFirestore,
+  setDoc,
+  writeBatch
+} from "firebase/firestore"
 
 const config = {
   apiKey: "AIzaSyDnq4nU1J8Oi_7cIk4VV6LBs0GbPslE1TI",
@@ -12,16 +24,29 @@ const config = {
   measurementId: "G-BKZJ1LZC5C"
 }
 
+export const firebaseApp = initializeApp(config)
+export const auth = getAuth(firebaseApp)
+export const firestore = getFirestore(firebaseApp)
+
+export const googleProvider = new GoogleAuthProvider()
+googleProvider.setCustomParameters({ prompt: "select_account" })
+export const signInWithGoogle = () => signInWithPopup(auth, googleProvider)
+
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return
 
-  const userRef = firestore.doc(`users/${userAuth.uid}`)
-  const snapShot = await userRef.get()
+  const userRef = doc(firestore, `users/${userAuth.uid}`)
+  const snapShot = await getDoc(userRef)
   if (!snapShot.exists) {
     const { displayName, email } = userAuth
     const createdAt = new Date()
     try {
-      await userRef.set({ displayName, email, createdAt, ...additionalData })
+      await setDoc(userRef, {
+        displayName,
+        email,
+        createdAt,
+        ...additionalData
+      })
     } catch (error) {
       console.error("error creating user", error.message)
     }
@@ -29,15 +54,13 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   return userRef
 }
 
-firebase.initializeApp(config)
-
 export const addCollectionAndDocuments = async (
   collectionKey,
   objectsToAdd
 ) => {
-  const collectionRef = firestore.collection(collectionKey)
+  const collectionRef = collection(firestore, collectionKey)
 
-  const batch = firestore.batch()
+  const batch = writeBatch(firestore)
 
   objectsToAdd.forEach((obj) => {
     const newDocRef = collectionRef.doc()
@@ -65,18 +88,13 @@ export const convertCollectionsSnapshotToMap = (collections) => {
 
 export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
-    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
-      unsubscribe()
-      resolve(userAuth)
-    }, reject)
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe()
+        resolve(userAuth)
+      },
+      reject
+    )
   })
 }
-
-export const auth = firebase.auth()
-export const firestore = firebase.firestore()
-
-export const googleProvider = new firebase.auth.GoogleAuthProvider()
-googleProvider.setCustomParameters({ prompt: "select_account" })
-export const signInWithGoogle = () => auth.signInWithPopup(googleProvider)
-
-export default firebase
