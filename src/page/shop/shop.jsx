@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useEffect } from "react"
 import { useDispatch } from "react-redux"
-import { Route, useLocation } from "react-router-dom"
+import { Route, Routes, useLocation } from "react-router-dom"
 import Spinner from "../../components/spinner/spinner.jsx"
 import { fetchCollectionsStart } from "../../redux/shop/shop-actions.js"
 
@@ -20,19 +20,14 @@ const ShopPage = () => {
     dispatch(fetchCollectionsStart())
   }, [dispatch])
 
+  // :categoryId means it's assigned to a path variable
   return (
     <div className="shop-page">
       <Suspense fallback={<Spinner />}>
-        <Route
-          exact
-          path={`${location.pathname}`}
-          component={CollectionsOverviewContainer}
-        />
-        {/* :categoryId means it's assigned to a path variable */}
-        <Route
-          path={`${location.pathname}/:collectionId`}
-          component={CollectionPageContainer}
-        />
+        <Routes>
+          <Route path={""} element={<CollectionsOverviewContainer />} />
+          <Route path={":collectionId"} element={<CollectionPageContainer />} />
+        </Routes>
       </Suspense>
     </div>
   )

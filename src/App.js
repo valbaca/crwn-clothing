@@ -1,7 +1,6 @@
 import React, { lazy, Suspense, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Redirect, Switch } from "react-router-dom"
-import { CompatRoute } from "react-router-dom-v5-compat"
+import { Navigate, Route, Routes } from "react-router-dom"
 import ErrorBoundary from "./components/error-boundary/error-boundary.jsx"
 import Header from "./components/header/header.jsx"
 import Spinner from "./components/spinner/spinner.jsx"
@@ -17,8 +16,20 @@ const SignInAndSignUpPage = lazy(() =>
   import("./page/sign-in-and-sign-up/sign-in-and-sign-up.jsx")
 )
 
-const App = () => {
+const SignInPage = () => {
   const currentUser = useSelector(selectCurrentUser)
+  return (
+    <>
+      {currentUser ? (
+        <Navigate relative="false" to="/" />
+      ) : (
+        <SignInAndSignUpPage />
+      )}
+    </>
+  )
+}
+
+const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -29,22 +40,17 @@ const App = () => {
     <div>
       <GlobalStyle />
       <Header />
-      <Switch>
-        <ErrorBoundary>
-          <Suspense fallback={<Spinner />}>
-            <CompatRoute exact path="/" component={HomePage} />
-            <CompatRoute path="/shop" component={ShopPage} />
-            <CompatRoute exact path="/checkout" component={CheckoutPage} />
-            <CompatRoute
-              exact
-              path="/signin"
-              render={() =>
-                currentUser ? <Redirect to="/" /> : <SignInAndSignUpPage />
-              }
-            />
-          </Suspense>
-        </ErrorBoundary>
-      </Switch>
+
+      <ErrorBoundary>
+        <Suspense fallback={<Spinner />}>
+          <Routes>
+            <Route exact path="/" element={<HomePage />} />
+            <Route path="/shop/*" element={<ShopPage />} />
+            <Route exact path="/checkout" element={<CheckoutPage />} />
+            <Route path="/signin" element={<SignInPage />} />
+          </Routes>
+        </Suspense>
+      </ErrorBoundary>
     </div>
   )
 }
