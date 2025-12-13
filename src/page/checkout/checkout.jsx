@@ -1,4 +1,3 @@
-import React from "react"
 import { useSelector } from "react-redux"
 import CheckoutItem from "../../components/checkout-item/checkout-item"
 import StripeCheckoutButton from "../../components/stripe-button/stripe-button"

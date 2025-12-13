@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { signUpStart } from "../../redux/user/user-actions.js"
 import CustomButton from "../custom-button/custom-button"
