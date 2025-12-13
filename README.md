@@ -8,6 +8,7 @@ crwn-clothing is a hip shopping page for my development portfolio. It's built wi
 - [Sass](https://sass-lang.com/) for styling
 - [Firebase](https://firebase.google.com/) for auth and store
 - [Stripe](https://stripe.com/) for payments
+- [Vite](https://vite.dev/) for build
 
 See the site hosted on Vercel: https://crwn-clothing-navy.vercel.app/
 
