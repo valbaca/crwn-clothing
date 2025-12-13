@@ -1,6 +1,5 @@
-import React from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { ReactComponent as Logo } from "../../assets/crown.svg"
+import Logo from "../../assets/crown.svg?react"
 import { selectCartHidden } from "../../redux/cart/cart-selectors"
 import { signOutStart } from "../../redux/user/user-actions.js"
 import { selectCurrentUser } from "../../redux/user/user-selectors"
