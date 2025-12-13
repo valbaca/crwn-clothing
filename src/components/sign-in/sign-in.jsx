@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { googleSignInStart } from "../../redux/user/user-actions.js"
 import CustomButton from "../custom-button/custom-button"
@@ -50,7 +50,7 @@ const SignIn = ({ emailSignInStart }) => {
           <CustomButton
             type="button"
             onClick={() => dispatch(googleSignInStart())}
-            isGoogleSignIn
+            $isGoogleSignIn={true}
           >
             Sign In with Google
           </CustomButton>

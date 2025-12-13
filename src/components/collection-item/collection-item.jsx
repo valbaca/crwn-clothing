@@ -1,4 +1,3 @@
-import React from "react"
 import { useDispatch } from "react-redux"
 import { addItem } from "../../redux/cart/cart-actions"
 import CustomButton from "../custom-button/custom-button"
@@ -17,7 +16,7 @@ const CollectionItem = ({ item }) => {
       <CustomButton
         className="custom-button"
         onClick={() => dispatch(addItem(item))}
-        inverted
+        $inverted="true"
       >
         Add to cart
       </CustomButton>
