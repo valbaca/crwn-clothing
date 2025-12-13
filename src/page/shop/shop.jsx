@@ -1,6 +1,6 @@
-import React, { lazy, Suspense, useEffect } from "react"
+import { lazy, Suspense, useEffect } from "react"
 import { useDispatch } from "react-redux"
-import { Route, Routes, useLocation } from "react-router-dom"
+import { Route, Routes, useLocation } from "react-router"
 import Spinner from "../../components/spinner/spinner.jsx"
 import { fetchCollectionsStart } from "../../redux/shop/shop-actions.js"
 

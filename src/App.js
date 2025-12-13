@@ -1,6 +1,6 @@
-import React, { lazy, Suspense, useEffect } from "react"
+import { lazy, Suspense, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Navigate, Route, Routes } from "react-router-dom"
+import { Navigate, Route, Routes } from "react-router"
 import ErrorBoundary from "./components/error-boundary/error-boundary.jsx"
 import Header from "./components/header/header.jsx"
 import Spinner from "./components/spinner/spinner.jsx"

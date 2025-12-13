@@ -1,6 +1,6 @@
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router"
 import { toggleCartHidden } from "../../redux/cart/cart-actions"
 import { selectCartItems } from "../../redux/cart/cart-selectors"
 import CartItem from "../cart-item/cart-item"
